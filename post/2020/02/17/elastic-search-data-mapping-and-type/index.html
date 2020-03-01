@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Elastic Search 데이터 타입과 맵핑 | 해리의 유목연습장</title>
+    <meta name="description" content="데이터타입을 알기위해서는 먼저 맵핑을 알아야합니다. 맵핑이란 RDBMS에서의 테이블 스키마와 유사하며 따로 정의하지않을경우 엘라스틱서치에서 자동으로 맵핑합니다. 맵핑을 사용하는 이유는 크게
+전체 텍스트 검색
+별도의 맵핑이 설정되어있지 않으면 엘라스틱서치는 텍스트값을 ...">
+    <meta name="generator" content="VuePress 1.3.0">
+    <link rel="icon" href="/img/ico.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.7c762f68.css" as="style"><link rel="preload" href="/assets/js/app.82d45242.js" as="script"><link rel="preload" href="/assets/js/13.d011978a.js" as="script"><link rel="preload" href="/assets/js/26.e7e7a926.js" as="script"><link rel="prefetch" href="/assets/js/10.8b4ec44a.js"><link rel="prefetch" href="/assets/js/11.af2ec1a1.js"><link rel="prefetch" href="/assets/js/12.a099b86e.js"><link rel="prefetch" href="/assets/js/14.768d53ca.js"><link rel="prefetch" href="/assets/js/15.d2972a92.js"><link rel="prefetch" href="/assets/js/16.5a0f8603.js"><link rel="prefetch" href="/assets/js/17.16bccb7d.js"><link rel="prefetch" href="/assets/js/18.b11f0289.js"><link rel="prefetch" href="/assets/js/19.efed93f1.js"><link rel="prefetch" href="/assets/js/20.fb601f0d.js"><link rel="prefetch" href="/assets/js/21.793467c5.js"><link rel="prefetch" href="/assets/js/22.20206515.js"><link rel="prefetch" href="/assets/js/23.ba30a582.js"><link rel="prefetch" href="/assets/js/24.1c9dbbd5.js"><link rel="prefetch" href="/assets/js/25.83014bc2.js"><link rel="prefetch" href="/assets/js/27.eb166bd0.js"><link rel="prefetch" href="/assets/js/28.1714e97b.js"><link rel="prefetch" href="/assets/js/29.6ae586ab.js"><link rel="prefetch" href="/assets/js/3.725426f2.js"><link rel="prefetch" href="/assets/js/30.52680d51.js"><link rel="prefetch" href="/assets/js/31.79b5eafc.js"><link rel="prefetch" href="/assets/js/32.267df318.js"><link rel="prefetch" href="/assets/js/33.aa81298e.js"><link rel="prefetch" href="/assets/js/34.8a039170.js"><link rel="prefetch" href="/assets/js/35.45d62215.js"><link rel="prefetch" href="/assets/js/36.1c9e1b2d.js"><link rel="prefetch" href="/assets/js/37.73a4ef4e.js"><link rel="prefetch" href="/assets/js/4.f9970659.js"><link rel="prefetch" href="/assets/js/5.883f5298.js"><link rel="prefetch" href="/assets/js/6.f5ff3020.js"><link rel="prefetch" href="/assets/js/7.3cafdc2f.js"><link rel="prefetch" href="/assets/js/8.2c359966.js"><link rel="prefetch" href="/assets/js/9.24f193ab.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.972bb9fd.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7c762f68.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div><header id="top" role="banner" class="navbar"><div class="container"><div class="inner"><div class="site-title"><a href="/"><img src="/img/blog-logo.png" alt="harry" style="height:80px;"></a> <a href="#site-menu" class="site-menu-toggle"><span class="sr-only">Toggle navigation</span> <em class="first"></em><em class="middle"></em><em class="last"></em></a></div> <div id="site-menu"><nav><ul><li><a href="/" class="router-link-active">POST</a></li> <li><a href="/tag">TAG</a></li> <li><a target="_blank" href="https://medium.com/harrythegreat">MEDIUM</a></li></ul></nav></div></div></div></header> <div id="content" role="main" class="dark-background"><div class="container"><div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><h2 class="single-title">Elastic Search 데이터 타입과 맵핑</h2> <p class="post-meta"><span>2020년 02월 17일 <a href="#">Harry The Great</a></span></p></div></div> <div id="main-article" class="row row-eq-height"><article id="markdown-content" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><div class="content__default"><p>데이터타입을 알기위해서는 먼저 맵핑을 알아야합니다. 맵핑이란 RDBMS에서의 테이블 스키마와 유사하며 따로 정의하지않을경우 엘라스틱서치에서 자동으로 맵핑합니다. 맵핑을 사용하는 이유는 크게</p> <ul><li>전체 텍스트 검색
+별도의 맵핑이 설정되어있지 않으면 엘라스틱서치는 텍스트값을 Keywords 타입으로 정의하며 Keywords 타입은 ::완전일치(Exact Match):: 검색만 지원합니다.</li> <li>숫자, 날짜, 위치정보
+단순히 값을 String으로 저장하는 것이 아닌 Date간 비교 위치정보 간 연산 등을 위해 데이터 타입을 묶어 사용할 수 있습니다.</li> <li>다이나믹 맵핑의 커스텀을 위해</li></ul> <h2 id="다이나믹맵핑이란"><a href="#다이나믹맵핑이란" class="header-anchor">#</a> 다이나믹맵핑이란?</h2> <p>따로 정의하지 않은 데이터에 대해서 엘라스틱서치는 자동으로 맵핑을 하게 되며 이를 다이내믹 맵핑이라고 합니다. 다이내믹 맵핑 덕분에 우리는 일일이 모든 필드를 정의할 필요가 없습니다.</p> <div class="language- extra-class"><pre class="language-text"><code>POST /stuff/_doc
+{
+  &quot;name&quot;: &quot;harry&quot;,
+  &quot;salary&quot;: 5000,
+  &quot;level&quot;: 5
+}
+</code></pre></div><p>별다른 정의 없이 stuff 인덱스에 위처럼 데이터를 넣어준다면...</p> <h6>결과값</h6> <div class="language-json extra-class"><pre class="language-json"><code># GET /stuff/_mapping
+<span class="token punctuation">{</span>
+  <span class="token property">&quot;stuff&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;mappings&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;properties&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;level&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span> 
+          <span class="token property">&quot;type&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;long&quot;</span> <span class="token comment">//자동추론되기떄문에 얼만큼의 값인지 알 수 없어 비교적 큰 Long이 할당</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;name&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">//직접 정의한 이름타입`</span>
+          <span class="token property">&quot;type&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;text&quot;</span><span class="token punctuation">,</span>
+          <span class="token property">&quot;fields&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;keyword&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">//완전일치만 검색되는 Ketword타입으로 이름이 들어갑니다.</span>
+              <span class="token property">&quot;type&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;keyword&quot;</span><span class="token punctuation">,</span>
+              <span class="token property">&quot;ignore_above&quot;</span> <span class="token operator">:</span> <span class="token number">256</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;salary&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">//직접 정의한 Salary</span>
+          <span class="token property">&quot;type&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;long&quot;</span>
+...생략
+</code></pre></div><h2 id="데이터-타입의-종류"><a href="#데이터-타입의-종류" class="header-anchor">#</a> 데이터 타입의 종류</h2> <p>이제 맵핑을 알았으니 맵핑을 위한 데이터 타입을 알아볼 차례입니다.</p> <h3 id="코어-데이터-타입-core-data-type"><a href="#코어-데이터-타입-core-data-type" class="header-anchor">#</a> 코어 데이터 타입(Core Data Type)</h3> <p>가장 작은 단위로 분류할 수 있는 데이터 타입( 반대로 코어 데이터들로 이루어진 Complex Data Type이 존재)</p> <ul><li>Text - Term 단위로 색인 (기존 String)</li> <li>Keyword - Exact Match만 지원하며 성별이나 카테고리같은 데이터에 적합</li> <li>Date - String(ex: 2020-01-01), long(ex: timestamp), Integer(ex: 20200101)로 표현된 데이터타입을 날짜로 사용</li> <li>Geo - 위치정보(경도,위도)</li> <li>숫자형 - Int, float, long, shorts, bytes, scaled_float</li> <li>Completion - 자동완성을 위해 최적화된 데이터타입</li></ul> <h3 id="복합-데이터-타입-complex-data-type"><a href="#복합-데이터-타입-complex-data-type" class="header-anchor">#</a> 복합 데이터 타입(Complex Data Type)</h3> <h6 class="heading"><span>오브젝트(Object) 타입 - 필드 내의 필드가 존재</span></h6><div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span> 
+   <span class="token property">&quot;name&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+		<span class="token property">&quot;firstName&quot;</span><span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;lastName&quot;</span><span class="token operator">:</span> <span class="token string">&quot;world&quot;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>일래스틱서치에서는 위처럼 Object 타입은 아래처럼 같은 레벨로 평준화(Flatten)하여 저장합니다.</p> <div class="language-JSON extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+	<span class="token property">&quot;name.firstName&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;hello&quot;</span>
+	<span class="token property">&quot;name.lastName&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;world&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h6>중첩 오브젝트(Nested Object) 타입</h6> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span> 
+   <span class="token property">&quot;name&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+		<span class="token property">&quot;firstName&quot;</span><span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;lastName&quot;</span><span class="token operator">:</span> <span class="token string">&quot;world&quot;</span>
+		 <span class="token property">&quot;name&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+			<span class="token property">&quot;firstName&quot;</span><span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+  	    <span class="token property">&quot;lastName&quot;</span><span class="token operator">:</span> <span class="token string">&quot;world&quot;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Object 타입 안에 Object 타입이 존재하는 경우</p> <h6>배열(Array) 타입  - 동일한 데이터값을 여러 개 갖는 타입 (ex: [1,2,3,4,]</h6> <p>배열 타입에서 주의할 점은 배열 안에 오브젝트가 있는 경우입니다.</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+	<span class="token property">&quot;stuff&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token punctuation">{</span> <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;harry&quot;</span><span class="token punctuation">,</span> <span class="token property">&quot;level&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token punctuation">{</span> <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;david&quot;</span><span class="token punctuation">,</span> <span class="token property">&quot;level&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">}</span>
+   <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h6>저장값</h6> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+	<span class="token property">&quot;stuff.name&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;harry&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;david&quot;</span><span class="token punctuation">]</span>
+	<span class="token property">&quot;stuff.level&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>평준화(Flatten)되어 저장되기 때문에 harry라는 이름의 직원이 어떤 레벨을 갖는지 검색할 수 없습니다. 이 때문에 되도록 의미 단위의 오브젝트 배열을 피합니다.</p> <h2 id="elastic-search-mapping-맵핑"><a href="#elastic-search-mapping-맵핑" class="header-anchor">#</a> Elastic Search Mapping 맵핑</h2> <p>Elastic Search에서 데이터 맵핑은 테이블에서 스키마를 정의하는 과정과 유사합니다.</p> <h2 id="데이터-맵핑하기"><a href="#데이터-맵핑하기" class="header-anchor">#</a> 데이터 맵핑하기</h2> <p>Stuff 인덱스에 Salay타입을 정수(Integer)로 정의하기</p> <div class="language-json extra-class"><pre class="language-json"><code>PUT /stuff/_mapping
+<span class="token punctuation">{</span>
+  <span class="token property">&quot;properties&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;salary&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+     <span class="token property">&quot;type&quot;</span><span class="token operator">:</span>  <span class="token string">&quot;integer&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>만약 integer를 long으로 변경한다면 이미 맵핑된 데이터이기 때문에 에러가 발생합니다. 만약 인덱스의 생성과 동시에 맵핑하고 싶다면 아래처럼 질의 합니다.</p> <h6>index 생성과 동시에 맵핑</h6> <div class="language-json extra-class"><pre class="language-json"><code>PUT stuff_second
+PUT stuff_second
+<span class="token punctuation">{</span>
+  <span class="token property">&quot;mappings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;properties&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;salary&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;integer&quot;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h6>이외에 맵핑과 함께 사용하면 좋은 연산키워드들</h6> <ul><li>copy to: 데이터에서 다른 데이터로 값을 복사하여 사용</li> <li>norms: term 검색의 가중치 부여여부를 결정합니다. (짧고 일치할수록 더 많은 가중치)</li> <li>null_value: 값이 없을경우의 기본값</li></ul></div></article> <div class="col-md-2 sidebar-container"><aside class="sidebar"><div class="sidebar-content"><h6 class="title">CONTENTS</h6> <div class="sep red"></div> <ul><li class="vuepress-toc-h2"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#다이나믹맵핑이란" class="sidebar-link">다이나믹맵핑이란?</a></li><li class="vuepress-toc-h2"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#데이터-타입의-종류" class="sidebar-link">데이터 타입의 종류</a></li><li class="vuepress-toc-h3"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#코어-데이터-타입-core-data-type" class="sidebar-link">코어 데이터 타입(Core Data Type)</a></li><li class="vuepress-toc-h3"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#복합-데이터-타입-complex-data-type" class="sidebar-link">복합 데이터 타입(Complex Data Type)</a></li><li class="vuepress-toc-h2"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#elastic-search-mapping-맵핑" class="sidebar-link">Elastic Search Mapping 맵핑</a></li><li class="vuepress-toc-h2"><a href="/post/2020/02/17/elastic-search-data-mapping-and-type/#데이터-맵핑하기" class="sidebar-link">데이터 맵핑하기</a></li></ul></div></aside></div></div> <div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><div class="margin-4"></div> <div class="row"><div class="col-sm-6"><h5>공유하기</h5> <p class="social-share no-bottom"><a href="#" class="social-link"><i class="fa fa-facebook"></i></a> <a href="#" class="social-link"><i class="fa fa-twitter"></i></a> <a href="#" class="social-link"><i class="fa fa-google-plus"></i></a> <a href="#" class="social-link"><i class="fa fa-dribbble"></i></a> <a href="#" class="social-link"><i class="fa fa-pinterest"></i></a> <a href="#" class="social-link"><i class="fa fa-behance"></i></a></p></div> <div class="col-sm-6"><div class="ui-post-meta ui-post-tag"><p class="tags"><strong class="padding-bottom">Tagged:</strong> <a href="/tag/elastic search">
+                                    elastic search
+                                </a><a href="/tag/big data">
+                                    big data
+                                </a></p></div></div></div> <div class="sep margin-2"></div> <div class="clear"></div> <div class="row"><div class="col-sm-6 harry-info"><a href="#" class="display-inline-block"><img src="/img/face.png" width="80" height="80" alt class="round"></a> <h4>Harry The Great</h4> <div class="sep red"></div> <p>자동화/클라우드를 좋아하고 모바일 개발을 천직으로 생각하는 개발자
+
+                        </p></div> <div class="col-sm-6 harry-info"><a href="#" class="display-inline-block"><img src="/img/hash.png" alt class="round" style="height: 80px"></a> <h4>해리의 유목연습장</h4> <div class="sep red"></div> <p><a href="https://medium.com/harrythegreat">미디움에서 운영하는 유목코딩 블로그</a> 이외에 짧은 스니펫/디버그/디자인 연습/일상등을 기록하기위한 블로그겸 연습장입니다.</p></div></div> <div class="clear"></div> <div class="margin-4"></div> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_shortname = 'YOUR_SHORTNAME';
+                    (function () {
+                        var dsq = document.createElement('script')
+                        dsq.type = 'text/javascript'
+                        dsq.async = true
+                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
+                    })()
+                </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> <div class="margin-6"></div></div></div></div></div> <footer id="footer" role="contentinfo"><div class="container"><p><a href="index.html" class="mini-logo"><img src="/img/bottom.png" width="180" alt="harry"></a></p> <p>© since 2020 Harry's Nomad Coding. All Rights Reserved.</p> <p><a href="#" class="social-link"><i class="fa fa-behance"></i></a> <a href="#" class="social-link"><i class="fa fa-google-plus"></i></a> <a href="#" class="social-link"><i class="fa fa-dribbble"></i></a> <a href="#" class="social-link"><i class="fa fa-facebook"></i></a></p></div></footer></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.82d45242.js" defer></script><script src="/assets/js/13.d011978a.js" defer></script><script src="/assets/js/26.e7e7a926.js" defer></script>
+  </body>
+</html>

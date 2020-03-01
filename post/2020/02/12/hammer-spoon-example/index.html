@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hammerspoon 사용예제 | 해리의 유목연습장</title>
+    <meta name="description" content="
+function launchApp(basicKey, object)
+	//함수형태로 bindkey를 받습니다.
+    hs.hotkey.bind(basicKey, object.key, function()
+		//매칭되는 어플리케이션을 실행시킵니다.
+ ...">
+    <meta name="generator" content="VuePress 1.3.0">
+    <link rel="icon" href="/img/ico.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.7c762f68.css" as="style"><link rel="preload" href="/assets/js/app.82d45242.js" as="script"><link rel="preload" href="/assets/js/13.d011978a.js" as="script"><link rel="preload" href="/assets/js/19.efed93f1.js" as="script"><link rel="prefetch" href="/assets/js/10.8b4ec44a.js"><link rel="prefetch" href="/assets/js/11.af2ec1a1.js"><link rel="prefetch" href="/assets/js/12.a099b86e.js"><link rel="prefetch" href="/assets/js/14.768d53ca.js"><link rel="prefetch" href="/assets/js/15.d2972a92.js"><link rel="prefetch" href="/assets/js/16.5a0f8603.js"><link rel="prefetch" href="/assets/js/17.16bccb7d.js"><link rel="prefetch" href="/assets/js/18.b11f0289.js"><link rel="prefetch" href="/assets/js/20.fb601f0d.js"><link rel="prefetch" href="/assets/js/21.793467c5.js"><link rel="prefetch" href="/assets/js/22.20206515.js"><link rel="prefetch" href="/assets/js/23.ba30a582.js"><link rel="prefetch" href="/assets/js/24.1c9dbbd5.js"><link rel="prefetch" href="/assets/js/25.83014bc2.js"><link rel="prefetch" href="/assets/js/26.e7e7a926.js"><link rel="prefetch" href="/assets/js/27.eb166bd0.js"><link rel="prefetch" href="/assets/js/28.1714e97b.js"><link rel="prefetch" href="/assets/js/29.6ae586ab.js"><link rel="prefetch" href="/assets/js/3.725426f2.js"><link rel="prefetch" href="/assets/js/30.52680d51.js"><link rel="prefetch" href="/assets/js/31.79b5eafc.js"><link rel="prefetch" href="/assets/js/32.267df318.js"><link rel="prefetch" href="/assets/js/33.aa81298e.js"><link rel="prefetch" href="/assets/js/34.8a039170.js"><link rel="prefetch" href="/assets/js/35.45d62215.js"><link rel="prefetch" href="/assets/js/36.1c9e1b2d.js"><link rel="prefetch" href="/assets/js/37.73a4ef4e.js"><link rel="prefetch" href="/assets/js/4.f9970659.js"><link rel="prefetch" href="/assets/js/5.883f5298.js"><link rel="prefetch" href="/assets/js/6.f5ff3020.js"><link rel="prefetch" href="/assets/js/7.3cafdc2f.js"><link rel="prefetch" href="/assets/js/8.2c359966.js"><link rel="prefetch" href="/assets/js/9.24f193ab.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.972bb9fd.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7c762f68.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div><header id="top" role="banner" class="navbar"><div class="container"><div class="inner"><div class="site-title"><a href="/"><img src="/img/blog-logo.png" alt="harry" style="height:80px;"></a> <a href="#site-menu" class="site-menu-toggle"><span class="sr-only">Toggle navigation</span> <em class="first"></em><em class="middle"></em><em class="last"></em></a></div> <div id="site-menu"><nav><ul><li><a href="/" class="router-link-active">POST</a></li> <li><a href="/tag">TAG</a></li> <li><a target="_blank" href="https://medium.com/harrythegreat">MEDIUM</a></li></ul></nav></div></div></div></header> <div id="content" role="main" class="dark-background"><div class="container"><div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><h2 class="single-title">Hammerspoon 사용예제</h2> <p class="post-meta"><span>2020년 02월 12일 <a href="#">Harry The Great</a></span></p></div></div> <div id="main-article" class="row row-eq-height"><article id="markdown-content" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><div class="content__default"><h3 id="특정앱-실행시키기"><a href="#특정앱-실행시키기" class="header-anchor">#</a> 특정앱 실행시키기</h3> <div class="language-lua extra-class"><pre class="language-lua"><code><span class="token keyword">function</span> <span class="token function">launchApp</span><span class="token punctuation">(</span>basicKey<span class="token punctuation">,</span> object<span class="token punctuation">)</span>
+	<span class="token operator">//</span>함수형태로 bindkey를 받습니다<span class="token punctuation">.</span>
+    hs<span class="token punctuation">.</span>hotkey<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>basicKey<span class="token punctuation">,</span> object<span class="token punctuation">.</span>key<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+		<span class="token operator">//</span>매칭되는 어플리케이션을 실행시킵니다<span class="token punctuation">.</span>
+        hs<span class="token punctuation">.</span>application<span class="token punctuation">.</span><span class="token function">launchOrFocus</span><span class="token punctuation">(</span>object<span class="token punctuation">.</span>app<span class="token punctuation">)</span>
+        <span class="token keyword">local</span> application <span class="token operator">=</span> hs<span class="token punctuation">.</span>application<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>object<span class="token punctuation">.</span>app<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> application <span class="token operator">~=</span> <span class="token keyword">nil</span> <span class="token keyword">then</span>
+            <span class="token keyword">local</span> window <span class="token operator">=</span> application<span class="token punctuation">:</span><span class="token function">focusedWindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> window <span class="token operator">~=</span> <span class="token keyword">nil</span> <span class="token keyword">then</span>
+                <span class="token function">moveToCenterOfWindow</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span>
+            <span class="token keyword">end</span>
+        <span class="token keyword">end</span>
+    <span class="token keyword">end</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+</code></pre></div><h3 id="현재사용중인-키보드소스"><a href="#현재사용중인-키보드소스" class="header-anchor">#</a> 현재사용중인 키보드소스</h3> <div class="language-lua extra-class"><pre class="language-lua"><code>hs<span class="token punctuation">.</span>hotkey<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'cmd'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'i'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">local</span> input_source <span class="token operator">=</span> hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">currentLayout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>input_source<span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="현재-포커스되어있는-앱이름-가져오기"><a href="#현재-포커스되어있는-앱이름-가져오기" class="header-anchor">#</a> 현재 포커스되어있는 앱이름 가져오기</h3> <div class="language-lua extra-class"><pre class="language-lua"><code>hs<span class="token punctuation">.</span>hotkey<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'cmd'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'h'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">local</span> focus  <span class="token operator">=</span>  hs<span class="token punctuation">.</span>application<span class="token punctuation">.</span><span class="token function">frontmostApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>focus <span class="token operator">==</span> <span class="token string">&quot;Quiver&quot;</span><span class="token punctuation">)</span> <span class="token keyword">then</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">&quot;gotcha!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>focus<span class="token punctuation">)</span>
+
+    <span class="token comment">-- print(focusAPP)</span>
+    <span class="token keyword">local</span> lay <span class="token operator">=</span> hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">currentLayout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> lay <span class="token operator">==</span> <span class="token string">&quot;Unicode Hex Input&quot;</span> <span class="token keyword">then</span>
+        hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">setLayout</span><span class="token punctuation">(</span><span class="token string">&quot;ABC&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span>
+        hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">setLayout</span><span class="token punctuation">(</span><span class="token string">&quot;Unicode Hex Input&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="어플리케션별로-바뀌는-키보드-레이아웃바꾸기"><a href="#어플리케션별로-바뀌는-키보드-레이아웃바꾸기" class="header-anchor">#</a> 어플리케션별로 바뀌는 키보드 레이아웃바꾸기</h3> <div class="language-lua extra-class"><pre class="language-lua"><code>hs<span class="token punctuation">.</span>hotkey<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'cmd'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'h'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">local</span> unicodeLayout <span class="token operator">=</span> <span class="token string">&quot;com.apple.keylayout.UnicodeHexInput&quot;</span>
+    <span class="token keyword">local</span> gureumLayout <span class="token operator">=</span> <span class="token string">&quot;org.youknowone.inputmethod.Gureum.han2&quot;</span>    
+    <span class="token keyword">local</span> koreanLayout <span class="token operator">=</span> <span class="token string">&quot;com.apple.inputmethod.Korean.2SetKorean&quot;</span>
+
+    <span class="token keyword">local</span> focus  <span class="token operator">=</span>  hs<span class="token punctuation">.</span>application<span class="token punctuation">.</span><span class="token function">frontmostApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">local</span> input_id <span class="token operator">=</span>  hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">currentSourceID</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">local</span> promiseLayout
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span>input_id <span class="token operator">~=</span> unicodeLayout<span class="token punctuation">)</span> <span class="token keyword">then</span> 
+        promiseLayout <span class="token operator">=</span> unicodeLayout
+    <span class="token keyword">else</span> 
+        <span class="token keyword">if</span><span class="token punctuation">(</span>focus <span class="token operator">==</span> <span class="token string">&quot;Quiver&quot;</span><span class="token punctuation">)</span> <span class="token keyword">then</span>
+            promiseLayout <span class="token operator">=</span> koreanLayout
+        <span class="token keyword">else</span>
+            promiseLayout <span class="token operator">=</span> gureumLayout
+        <span class="token keyword">end</span>
+    <span class="token keyword">end</span>
+    hs<span class="token punctuation">.</span>keycodes<span class="token punctuation">.</span><span class="token function">currentSourceID</span><span class="token punctuation">(</span>promiseLayout<span class="token punctuation">)</span>
+
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+</code></pre></div></div></article> <div class="col-md-2 sidebar-container"><aside class="sidebar"><div class="sidebar-content"><h6 class="title">CONTENTS</h6> <div class="sep red"></div> <ul><li class="vuepress-toc-h3"><a href="/post/2020/02/12/hammer-spoon-example/#특정앱-실행시키기" class="sidebar-link">특정앱 실행시키기</a></li><li class="vuepress-toc-h3"><a href="/post/2020/02/12/hammer-spoon-example/#현재사용중인-키보드소스" class="sidebar-link">현재사용중인 키보드소스</a></li><li class="vuepress-toc-h3"><a href="/post/2020/02/12/hammer-spoon-example/#현재-포커스되어있는-앱이름-가져오기" class="sidebar-link">현재 포커스되어있는 앱이름 가져오기</a></li><li class="vuepress-toc-h3"><a href="/post/2020/02/12/hammer-spoon-example/#어플리케션별로-바뀌는-키보드-레이아웃바꾸기" class="sidebar-link">어플리케션별로 바뀌는 키보드 레이아웃바꾸기</a></li></ul></div></aside></div></div> <div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2"><div class="margin-4"></div> <div class="row"><div class="col-sm-6"><h5>공유하기</h5> <p class="social-share no-bottom"><a href="#" class="social-link"><i class="fa fa-facebook"></i></a> <a href="#" class="social-link"><i class="fa fa-twitter"></i></a> <a href="#" class="social-link"><i class="fa fa-google-plus"></i></a> <a href="#" class="social-link"><i class="fa fa-dribbble"></i></a> <a href="#" class="social-link"><i class="fa fa-pinterest"></i></a> <a href="#" class="social-link"><i class="fa fa-behance"></i></a></p></div> <div class="col-sm-6"><div class="ui-post-meta ui-post-tag"><p class="tags"><strong class="padding-bottom">Tagged:</strong> <a href="/tag/hammerspoon">
+                                    hammerspoon
+                                </a><a href="/tag/automation">
+                                    automation
+                                </a><a href="/tag/osx">
+                                    osx
+                                </a></p></div></div></div> <div class="sep margin-2"></div> <div class="clear"></div> <div class="row"><div class="col-sm-6 harry-info"><a href="#" class="display-inline-block"><img src="/img/face.png" width="80" height="80" alt class="round"></a> <h4>Harry The Great</h4> <div class="sep red"></div> <p>자동화/클라우드를 좋아하고 모바일 개발을 천직으로 생각하는 개발자
+
+                        </p></div> <div class="col-sm-6 harry-info"><a href="#" class="display-inline-block"><img src="/img/hash.png" alt class="round" style="height: 80px"></a> <h4>해리의 유목연습장</h4> <div class="sep red"></div> <p><a href="https://medium.com/harrythegreat">미디움에서 운영하는 유목코딩 블로그</a> 이외에 짧은 스니펫/디버그/디자인 연습/일상등을 기록하기위한 블로그겸 연습장입니다.</p></div></div> <div class="clear"></div> <div class="margin-4"></div> <div id="disqus_thread"></div> <script type="text/javascript">
+                    var disqus_shortname = 'YOUR_SHORTNAME';
+                    (function () {
+                        var dsq = document.createElement('script')
+                        dsq.type = 'text/javascript'
+                        dsq.async = true
+                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
+                    })()
+                </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> <div class="margin-6"></div></div></div></div></div> <footer id="footer" role="contentinfo"><div class="container"><p><a href="index.html" class="mini-logo"><img src="/img/bottom.png" width="180" alt="harry"></a></p> <p>© since 2020 Harry's Nomad Coding. All Rights Reserved.</p> <p><a href="#" class="social-link"><i class="fa fa-behance"></i></a> <a href="#" class="social-link"><i class="fa fa-google-plus"></i></a> <a href="#" class="social-link"><i class="fa fa-dribbble"></i></a> <a href="#" class="social-link"><i class="fa fa-facebook"></i></a></p></div></footer></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.82d45242.js" defer></script><script src="/assets/js/13.d011978a.js" defer></script><script src="/assets/js/19.efed93f1.js" defer></script>
+  </body>
+</html>
